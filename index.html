@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Get Your Certificate of Skepsis</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="./assets/images/SKEPSIS-LOGO-SINGLE.ico" />
+  </head>
+
+  <body>
+    <header>
+      <img src="./assets/images/Frame 631642.jpg" alt="Padhega India Logo" />
+      <h4>Get your certificate of participating to</h4>
+      <h1>
+        <a href="https://www.instagram.com/skepsis.official/" target="_blank" id="link"
+          >Skepsis Technical Commitee</a
+        >
+      </h1>
+    </header>
+    <main>
+      
+      <label for="file">Upload Excel File</label>
+      <input type="file" id="file" accept=".xlsx, .xls" />
+      <button id="submitBtn">Get Certificate</button>
+    </main>
+    <script src="https://unpkg.com/pdf-lib@1.4.0"></script>
+    <script src="./FileSaver.js"></script>
+    <script src="https://unpkg.com/@pdf-lib/fontkit@0.0.4"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="./index.js"></script>
+  </body>
+</html>
