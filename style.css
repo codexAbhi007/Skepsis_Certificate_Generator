@@ -1,5 +1,7 @@
 :root {
   --dark-color: #212121;
+  --primary-color: #8bc34a;
+  --text-color: #212121;
 }
 
 body {
@@ -7,12 +9,14 @@ body {
   text-align: center;
   margin-top: 40px;
   font-size: 1.5em;
+  color: var(--text-color);
 }
 
 h4 {
   font-weight: normal;
   margin-bottom: 5px;
 }
+
 h1 {
   font-weight: normal;
   margin-top: 0;
@@ -29,10 +33,39 @@ main {
   flex-direction: column;
   align-items: center;
 }
+
 main * {
   margin-bottom: 12px;
 }
 
+/* Styling file input */
+input[type="file"] {
+  display: none; /* Hide default input */
+}
+
+label[for="file"] {
+  display: inline-block;
+  padding: 10px 20px;
+  background: var(--primary-color);
+  color: white;
+  font-size: 1em;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+label[for="file"]:hover {
+  background: #7cb342;
+}
+
+/* Error message styling */
+#errorMsg {
+  color: red;
+  font-size: 0.8em;
+  display: none;
+}
+
+/* Input field styling */
 input {
   text-align: center;
   font-size: large;
@@ -42,7 +75,7 @@ input {
   text-transform: capitalize;
 }
 
-/* for styling the autocomplete style */
+/* Autofill styling */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -51,56 +84,65 @@ input:-webkit-autofill:active {
   -webkit-text-fill-color: var(--dark-color) !important;
 }
 
+/* Button styling */
 button {
-  background: #8bc34a;
-  color: #fff;
+  background: var(--primary-color);
+  color: white;
   border: none;
-  font-size: 0.8em;
-  padding: 5px 15px;
-  margin: 20px;
+  font-size: 1em;
+  padding: 10px 20px;
+  margin-top: 20px;
   border-radius: 5px;
   cursor: pointer;
+  font-weight: bold;
 }
+
+button:hover {
+  background: #7cb342;
+}
+
+/* Links */
 a {
   color: #6492f6;
 }
 
-/* dark mode css */
+/* Dark mode styling */
 @media (prefers-color-scheme: dark) {
   body {
     background: var(--dark-color);
-    color: #fff;
+    color: white;
   }
+
   input,
   input:active {
     background: var(--dark-color);
-    border-color: #fff;
-    color: #fff;
+    border-color: white;
+    color: white;
   }
 
-  /* for styling the autocomplete style */
+  label[for="file"],
+  button {
+    background: #7cb342;
+  }
+
+  label[for="file"]:hover,
+  button:hover {
+    background: #689f38;
+  }
+
+  a {
+    color: #90caf9;
+  }
+
+  /* Autofill styling */
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,
   input:-webkit-autofill:active {
-    transition: background-color 5000s ease-in-out 0s;
-    -webkit-text-fill-color: #fff !important;
+    -webkit-text-fill-color: white !important;
   }
 }
-#link{
-  color: #fff;
-}
 
-/* Add these styles */
-#excelFile {
-  border: 2px dashed #8bc34a;
-  padding: 20px;
-  margin: 20px;
-  cursor: pointer;
-}
-
-#generateBtn {
-  background: #2196f3;
-  padding: 10px 30px;
-  font-size: 1.2em;
+#link {
+  color: white;
 }

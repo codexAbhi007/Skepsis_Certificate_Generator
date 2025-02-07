@@ -1,11 +1,12 @@
 const userName = document.getElementById("name");
 const submitBtn = document.getElementById("submitBtn");
 const fileInput = document.getElementById("file");
+const errorMsg = document.getElementById("errorMsg");
 
 const { PDFDocument, rgb, degrees } = PDFLib;
 
-const generatePDF = async (name, event, year) => {
-  const existingPdfBytes = await fetch("./assets/cert.pdf").then((res) =>
+const generatePDF = async (name) => {
+  const existingPdfBytes = await fetch("./assets/participation.pdf").then((res) =>
     res.arrayBuffer()
   );
 
@@ -40,9 +41,23 @@ const generatePDF = async (name, event, year) => {
 // Function to handle file processing
 async function handleFile(file) {
   if (!file) {
-    alert("Please select a file first!");
+    errorMsg.textContent = "Please upload a file.";
+    errorMsg.style.display = "block";
     return;
   }
+
+  const allowedExtensions = ["xls", "xlsx"];
+  const fileExtension = file.name.split(".").pop().toLowerCase();
+
+  if (!allowedExtensions.includes(fileExtension)) {
+    errorMsg.textContent = "Only Excel files (.xls, .xlsx) are allowed.";
+    errorMsg.style.display = "block";
+    return;
+  }
+
+  errorMsg.style.display = "none";
+
+
 
   const reader = new FileReader();
   reader.onload = async function(event) {
@@ -53,16 +68,15 @@ async function handleFile(file) {
     const json = XLSX.utils.sheet_to_json(worksheet);
     const formattedData = json.map(row => ({
       name: row.NAME,
-      event: row.EVENT,
-      year: row.YEAR
+      
     }));
 
     console.log(formattedData);
 
     const zip = new JSZip();
     for (const data of formattedData) {
-      const pdfBytes = await generatePDF(data.name, data.event, data.year);
-      zip.file(`${data.name}_${data.event}.pdf`, pdfBytes);
+      const pdfBytes = await generatePDF(data.name);
+      zip.file(`${data.name}_.pdf`, pdfBytes);
     }
 
     zip.generateAsync({ type: "blob" }).then(function(content) {
@@ -72,8 +86,7 @@ async function handleFile(file) {
   reader.readAsArrayBuffer(file);
 }
 
-// Trigger handleFile on submit button click
 submitBtn.addEventListener("click", () => {
-  const file = fileInput.files[0]; // Get the selected file
+  const file = fileInput.files[0];
   handleFile(file);
 });
