@@ -3,7 +3,7 @@ const fileInput = document.getElementById("file");
 const errorMsg = document.getElementById("errorMsg");
 const loader = document.getElementById("loader");
 
-const { PDFDocument, rgb, degrees } = PDFLib;
+const { PDFDocument, rgb } = PDFLib;
 
 const generatePDF = async (name) => {
   const existingPdfBytes = await fetch("./assets/participation.pdf").then(
@@ -20,15 +20,22 @@ const generatePDF = async (name) => {
 
   const pages = pdfDoc.getPages();
   const firstPage = pages[0];
-
-  const fontSize = 90;
-  const textWidth = LeckerliOne.widthOfTextAtSize(name, fontSize);
   const { width: pageWidth } = firstPage.getSize();
-  const centerX = (pageWidth - textWidth) / 2;
-  const centerY = 270;
+  let fontSize = 90;
+  let textWidth = LeckerliOne.widthOfTextAtSize(name, fontSize);
+  const maxWidth = pageWidth - 50; // Allow some margin
 
+  // Reduce font size dynamically if text is too wide
+  while (textWidth > maxWidth && fontSize > 40) {
+    fontSize -= 5;
+    textWidth = LeckerliOne.widthOfTextAtSize(name, fontSize);
+  }
+
+  let centerY = 270;
+
+  // Single-line text
   firstPage.drawText(name, {
-    x: centerX,
+    x: (pageWidth - textWidth) / 2,
     y: centerY,
     size: fontSize,
     font: LeckerliOne,
@@ -68,8 +75,6 @@ async function handleFile(file) {
     const formattedData = json.map((row) => ({
       name: row.NAME,
     }));
-
-    // console.log(formattedData);
 
     const zip = new JSZip();
     for (const data of formattedData) {
