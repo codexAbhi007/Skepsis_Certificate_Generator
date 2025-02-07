@@ -6,33 +6,33 @@ const errorMsg = document.getElementById("errorMsg");
 const { PDFDocument, rgb, degrees } = PDFLib;
 
 const generatePDF = async (name) => {
-  const existingPdfBytes = await fetch("./assets/participation.pdf").then((res) =>
-    res.arrayBuffer()
+  const existingPdfBytes = await fetch("./assets/appreciation.pdf").then(
+    (res) => res.arrayBuffer()
   );
 
   const pdfDoc = await PDFDocument.load(existingPdfBytes);
   pdfDoc.registerFontkit(fontkit);
 
-  const fontBytes = await fetch("./KaushanScript-Regular.ttf").then((res) =>
+  const fontBytes = await fetch("./LeckerliOne-Regular.ttf").then((res) =>
     res.arrayBuffer()
   );
 
-  const KaushanFont = await pdfDoc.embedFont(fontBytes);
+  const LeckerliOne = await pdfDoc.embedFont(fontBytes);
   const pages = pdfDoc.getPages();
   const firstPage = pages[0];
 
-  const fontSize = 45;
-  const textWidth = KaushanFont.widthOfTextAtSize(name, fontSize);
+  const fontSize = 90;
+  const textWidth = LeckerliOne.widthOfTextAtSize(name, fontSize);
   const { width: pageWidth } = firstPage.getSize();
   const centerX = (pageWidth - textWidth) / 2;
-  const centerY = 330;
+  const centerY = 260;
 
   firstPage.drawText(name, {
     x: centerX,
     y: centerY,
     size: fontSize,
-    font: KaushanFont,
-    color: rgb(0, 0, 0),
+    font: LeckerliOne,
+    color: rgb(2 / 255, 49 / 255, 106 / 255),
   });
 
   return await pdfDoc.save();
@@ -57,18 +57,15 @@ async function handleFile(file) {
 
   errorMsg.style.display = "none";
 
-
-
   const reader = new FileReader();
-  reader.onload = async function(event) {
+  reader.onload = async function (event) {
     const data = new Uint8Array(event.target.result);
-    const workbook = XLSX.read(data, { type: 'array' });
+    const workbook = XLSX.read(data, { type: "array" });
     const firstSheetName = workbook.SheetNames[0];
     const worksheet = workbook.Sheets[firstSheetName];
     const json = XLSX.utils.sheet_to_json(worksheet);
-    const formattedData = json.map(row => ({
+    const formattedData = json.map((row) => ({
       name: row.NAME,
-      
     }));
 
     console.log(formattedData);
@@ -76,10 +73,10 @@ async function handleFile(file) {
     const zip = new JSZip();
     for (const data of formattedData) {
       const pdfBytes = await generatePDF(data.name);
-      zip.file(`${data.name}_.pdf`, pdfBytes);
+      zip.file(`${data.name}.pdf`, pdfBytes);
     }
 
-    zip.generateAsync({ type: "blob" }).then(function(content) {
+    zip.generateAsync({ type: "blob" }).then(function (content) {
       saveAs(content, "certificatesZip.zip");
     });
   };
