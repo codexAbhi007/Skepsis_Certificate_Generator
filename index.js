@@ -23,9 +23,9 @@ const generatePDF = async (name) => {
   const { width: pageWidth } = firstPage.getSize();
   let fontSize = 90;
   let textWidth = LeckerliOne.widthOfTextAtSize(name, fontSize);
-  const maxWidth = pageWidth - 50; // Allow some margin
+  const maxWidth = pageWidth - 50; 
 
-  // Reduce font size dynamically if text is too wide
+  
   while (textWidth > maxWidth && fontSize > 40) {
     fontSize -= 5;
     textWidth = LeckerliOne.widthOfTextAtSize(name, fontSize);
@@ -33,7 +33,6 @@ const generatePDF = async (name) => {
 
   let centerY = 270;
 
-  // Single-line text
   firstPage.drawText(name, {
     x: (pageWidth - textWidth) / 2,
     y: centerY,
