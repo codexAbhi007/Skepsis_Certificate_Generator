@@ -6,12 +6,16 @@ const loader = document.getElementById("loader");
 const { PDFDocument, rgb, degrees } = PDFLib;
 
 const generatePDF = async (name) => {
-  const existingPdfBytes = await fetch("./assets/appreciation.pdf").then(res => res.arrayBuffer());
+  const existingPdfBytes = await fetch("./assets/participation.pdf").then(
+    (res) => res.arrayBuffer()
+  );
 
   const pdfDoc = await PDFDocument.load(existingPdfBytes);
   pdfDoc.registerFontkit(fontkit);
 
-  const fontBytes = await fetch("./LeckerliOne-Regular.ttf").then(res => res.arrayBuffer());
+  const fontBytes = await fetch("./LeckerliOne-Regular.ttf").then((res) =>
+    res.arrayBuffer()
+  );
   const LeckerliOne = await pdfDoc.embedFont(fontBytes);
 
   const pages = pdfDoc.getPages();
@@ -21,7 +25,7 @@ const generatePDF = async (name) => {
   const textWidth = LeckerliOne.widthOfTextAtSize(name, fontSize);
   const { width: pageWidth } = firstPage.getSize();
   const centerX = (pageWidth - textWidth) / 2;
-  const centerY = 270; 
+  const centerY = 270;
 
   firstPage.drawText(name, {
     x: centerX,
@@ -33,7 +37,6 @@ const generatePDF = async (name) => {
 
   return await pdfDoc.save();
 };
-
 
 async function handleFile(file) {
   if (!file) {
@@ -52,8 +55,8 @@ async function handleFile(file) {
   }
 
   errorMsg.style.display = "none";
-  submitBtn.disabled = true; 
-  loader.style.display = "block"; 
+  submitBtn.disabled = true;
+  loader.style.display = "block";
 
   const reader = new FileReader();
   reader.onload = async function (event) {
@@ -66,7 +69,7 @@ async function handleFile(file) {
       name: row.NAME,
     }));
 
-    console.log(formattedData);
+    // console.log(formattedData);
 
     const zip = new JSZip();
     for (const data of formattedData) {
