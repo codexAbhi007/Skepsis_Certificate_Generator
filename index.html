@@ -14,17 +14,19 @@
       <h4>Get your certificate of participating to</h4>
       <h1>
         <a href="https://www.instagram.com/skepsis.official/" target="_blank" id="link"
-          >Skepsis Technical Commitee</a
+          >Skepsis Technical Committee</a
         >
       </h1>
     </header>
+    
     <main>
-      
       <label for="file">Upload Excel File</label>
       <input type="file" id="file" accept=".xlsx, .xls" />
       <button id="submitBtn">Get Certificate</button>
       <p id="errorMsg" style="color: red; display: none;">Only Excel files (.xls, .xlsx) are allowed.</p>
+      <div id="loader" class="loader" style="display: none;"></div>
     </main>
+
     <script src="https://unpkg.com/pdf-lib@1.4.0"></script>
     <script src="./FileSaver.js"></script>
     <script src="https://unpkg.com/@pdf-lib/fontkit@0.0.4"></script>

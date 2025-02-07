@@ -40,7 +40,7 @@ main * {
 
 /* Styling file input */
 input[type="file"] {
-  display: none; /* Hide default input */
+  display: none;
 }
 
 label[for="file"] {
@@ -134,7 +134,6 @@ a {
     color: #90caf9;
   }
 
-  /* Autofill styling */
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,
@@ -146,3 +145,21 @@ a {
 #link {
   color: white;
 }
+
+/* Loader Animation */
+.loader {
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #02316a;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 10px auto;
+  display: none; /* Initially hidden */
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+

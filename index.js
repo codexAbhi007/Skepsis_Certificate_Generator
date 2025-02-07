@@ -1,23 +1,19 @@
-const userName = document.getElementById("name");
 const submitBtn = document.getElementById("submitBtn");
 const fileInput = document.getElementById("file");
 const errorMsg = document.getElementById("errorMsg");
+const loader = document.getElementById("loader");
 
 const { PDFDocument, rgb, degrees } = PDFLib;
 
 const generatePDF = async (name) => {
-  const existingPdfBytes = await fetch("./assets/appreciation.pdf").then(
-    (res) => res.arrayBuffer()
-  );
+  const existingPdfBytes = await fetch("./assets/appreciation.pdf").then(res => res.arrayBuffer());
 
   const pdfDoc = await PDFDocument.load(existingPdfBytes);
   pdfDoc.registerFontkit(fontkit);
 
-  const fontBytes = await fetch("./LeckerliOne-Regular.ttf").then((res) =>
-    res.arrayBuffer()
-  );
-
+  const fontBytes = await fetch("./LeckerliOne-Regular.ttf").then(res => res.arrayBuffer());
   const LeckerliOne = await pdfDoc.embedFont(fontBytes);
+
   const pages = pdfDoc.getPages();
   const firstPage = pages[0];
 
@@ -25,7 +21,7 @@ const generatePDF = async (name) => {
   const textWidth = LeckerliOne.widthOfTextAtSize(name, fontSize);
   const { width: pageWidth } = firstPage.getSize();
   const centerX = (pageWidth - textWidth) / 2;
-  const centerY = 260;
+  const centerY = 270; 
 
   firstPage.drawText(name, {
     x: centerX,
@@ -38,7 +34,7 @@ const generatePDF = async (name) => {
   return await pdfDoc.save();
 };
 
-// Function to handle file processing
+
 async function handleFile(file) {
   if (!file) {
     errorMsg.textContent = "Please upload a file.";
@@ -56,6 +52,8 @@ async function handleFile(file) {
   }
 
   errorMsg.style.display = "none";
+  submitBtn.disabled = true; 
+  loader.style.display = "block"; 
 
   const reader = new FileReader();
   reader.onload = async function (event) {
@@ -78,6 +76,10 @@ async function handleFile(file) {
 
     zip.generateAsync({ type: "blob" }).then(function (content) {
       saveAs(content, "certificatesZip.zip");
+
+      loader.style.display = "none";
+      submitBtn.disabled = false;
+      alert("File uploaded and processed successfully!");
     });
   };
   reader.readAsArrayBuffer(file);
